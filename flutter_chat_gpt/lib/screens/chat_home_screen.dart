@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_gpt/constants/constant.dart';
+import 'package:flutter_chat_gpt/services/api_services.dart';
 import 'package:flutter_chat_gpt/services/assets_manager.dart';
 import 'package:flutter_chat_gpt/services/helper.dart';
 import 'package:flutter_chat_gpt/widgets/chat_widget.dart';
@@ -32,7 +33,7 @@ class _ChatHomeState extends State<ChatHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: scaffoldBKColor,
+      backgroundColor: cardTextColor,
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.all(10),
@@ -41,7 +42,7 @@ class _ChatHomeState extends State<ChatHome> {
         title: Text(
           "ChatGPT",
           style: TextStyle(
-              color: cardItemBKColor,
+              color: cardTextInColor,
               fontSize: 20,
               fontWeight: FontWeight.w700),
         ),
@@ -52,7 +53,7 @@ class _ChatHomeState extends State<ChatHome> {
               },
               icon: Icon(
                 Icons.more_vert_rounded,
-                color: cardItemBKColor,
+                color: cardTextInColor,
               ))
         ],
       ),
@@ -77,7 +78,7 @@ class _ChatHomeState extends State<ChatHome> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(5.0),
               decoration: BoxDecoration(
                   color: cardItemBKColor,
                   borderRadius: BorderRadius.circular(50)),
@@ -94,7 +95,9 @@ class _ChatHomeState extends State<ChatHome> {
                     ),
                   ),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await ApiServices.getModels();
+                      },
                       icon: const Icon(
                         Icons.send_rounded,
                         color: Colors.white,

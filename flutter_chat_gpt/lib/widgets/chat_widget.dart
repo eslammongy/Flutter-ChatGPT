@@ -19,7 +19,7 @@ class ChatWidget extends StatelessWidget {
       children: [
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          margin: const EdgeInsets.symmetric(vertical: 5),
+          margin: const EdgeInsets.symmetric(vertical: 3),
           child: Material(
             color: msgIndex == 0 ? cardItemBKColor2 : cardItemBKColor,
             shape:
@@ -41,7 +41,7 @@ class ChatWidget extends StatelessWidget {
                   Expanded(
                     child: TextWidget(
                       label: msg,
-                      color: scaffoldBKColor,
+                      color: cardTextInColor,
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
                     ),
