@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_gpt/constants/constant.dart';
 import 'package:flutter_chat_gpt/services/assets_manager.dart';
+import 'package:flutter_chat_gpt/widgets/chat_widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ChatHome extends StatefulWidget {
@@ -55,9 +56,13 @@ class _ChatHomeState extends State<ChatHome> {
           child: Column(children: [
         Flexible(
           child: ListView.builder(
-              itemCount: 7,
+              itemCount: chatMessages.length,
               itemBuilder: (context, index) {
-                return Text("data");
+                return ChatWidget(
+                  msg: chatMessages[index]['msg'].toString(),
+                  msgIndex:
+                      int.parse(chatMessages[index]['chatIndex'].toString()),
+                );
               }),
         ),
         if (userIsTyping) ...[
