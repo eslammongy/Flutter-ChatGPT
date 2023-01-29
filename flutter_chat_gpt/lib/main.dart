@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_chat_gpt/constants/constant.dart';
 import 'package:flutter_chat_gpt/screens/chat_home_screen.dart';
+import 'package:flutter_chat_gpt/screens/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +19,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           scaffoldBackgroundColor: scaffoldBKColor,
           appBarTheme: AppBarTheme(
-              color: Colors.deepPurple,
+              color: cardTextColor,
+              systemOverlayStyle: SystemUiOverlayStyle(
+                statusBarColor: cardTextColor, // <-- SEE HERE
+                statusBarIconBrightness:
+                    Brightness.dark, //<-- For Android SEE HERE (dark icons)
+                statusBarBrightness:
+                    Brightness.light, //<-- For iOS SEE HERE (dark icons)
+              ),
               elevation: 2.2,
               titleTextStyle: TextStyle(
                   fontWeight: FontWeight.w700,
