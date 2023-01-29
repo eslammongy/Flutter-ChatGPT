@@ -1,9 +1,39 @@
 import 'package:flutter/animation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_chat_gpt/widgets/text_widget.dart';
 
 Color scaffoldBKColor = const Color(0xFFFAF8F1);
 Color cardItemBKColor = const Color(0xFF181D31);
 Color cardItemBKColor2 = const Color(0xFF262D49);
 Color cardTextColor = const Color(0xFFFFFBEB);
+
+List<String> listOfModels = [
+  "Model Test 1",
+  "Model Test 2",
+  "Model Test 3",
+  "Model Test 4",
+  "Model Test 5",
+  "Model Test 6",
+  "Model Test 7",
+  "Model Test 8",
+  "Model Test 9",
+];
+
+List<DropdownMenuItem<String>>? get getModelItems {
+  List<DropdownMenuItem<String>>? modelItems =
+      List<DropdownMenuItem<String>>.generate(
+    listOfModels.length,
+    (index) => DropdownMenuItem(
+      value: listOfModels[index],
+      child: TextWidget(
+        label: listOfModels[index],
+        fontSize: 15,
+      ),
+    ),
+  );
+  return modelItems;
+}
+
 final chatMessages = [
   {
     "msg": "Hello who are you?",
