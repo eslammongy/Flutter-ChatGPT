@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_gpt/widgets/text_widget.dart';
 
-Color scaffoldBKColor = const Color(0xFFFAF8F1);
-Color cardItemBKColor = const Color(0xFFC3C3C3);
-Color cardItemBKColor2 = const Color(0xFFDBDBDB);
+Color scaffoldBKColor = const Color(0xFF1c202a);
+Color appBarBKColor = const Color(0xFF272c39);
+Color cardItemBKColor = const Color(0xFF242935);
+Color cardItemBKColor2 = const Color(0xFF7269e3);
 Color cardTextColor = const Color(0xFFFFFBEB);
-Color cardTextInColor = const Color(0xFF282828);
-
+Color cardTextInColor = const Color(0xFFEFEFEF);
+/* 
 List<String> listOfModels = [
   "Model Test 1",
   "Model Test 2",
@@ -32,7 +33,7 @@ List<DropdownMenuItem<String>>? get getModelItems {
     ),
   );
   return modelItems;
-}
+} */
 
 final chatMessages = [
   {

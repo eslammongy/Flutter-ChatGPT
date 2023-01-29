@@ -19,9 +19,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           scaffoldBackgroundColor: scaffoldBKColor,
           appBarTheme: AppBarTheme(
-              color: cardTextColor,
+              color: appBarBKColor,
               systemOverlayStyle: SystemUiOverlayStyle(
-                statusBarColor: cardTextColor, // <-- SEE HERE
+                statusBarColor: appBarBKColor, // <-- SEE HERE
                 statusBarIconBrightness:
                     Brightness.dark, //<-- For Android SEE HERE (dark icons)
                 statusBarBrightness:

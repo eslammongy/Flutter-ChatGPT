@@ -31,7 +31,7 @@ class _ChatHomeState extends State<ChatHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: cardTextColor,
+      backgroundColor: scaffoldBKColor,
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.all(10),

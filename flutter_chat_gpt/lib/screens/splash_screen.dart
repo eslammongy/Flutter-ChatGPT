@@ -15,14 +15,17 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: cardItemBKColor,
+      backgroundColor: scaffoldBKColor,
       body: Center(
         child: Container(
             decoration: BoxDecoration(
-                color: scaffoldBKColor,
-                borderRadius: BorderRadius.circular(100)),
+                color: appBarBKColor, borderRadius: BorderRadius.circular(100)),
             padding: const EdgeInsets.all(25),
-            child: Image.asset(AssetsManager.chatBotImage)),
+            child: Image.asset(
+              AssetsManager.chatBotImage1,
+              width: 128,
+              fit: BoxFit.contain,
+            )),
       ),
     );
   }
