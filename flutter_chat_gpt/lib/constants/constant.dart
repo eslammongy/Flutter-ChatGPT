@@ -1,10 +1,9 @@
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_gpt/widgets/text_widget.dart';
 
 Color scaffoldBKColor = const Color(0xFFFAF8F1);
-Color cardItemBKColor = const Color(0xFF181D31);
-Color cardItemBKColor2 = const Color(0xFF262D49);
+Color cardItemBKColor = const Color.fromARGB(232, 24, 29, 49);
+Color cardItemBKColor2 = const Color.fromARGB(232, 38, 45, 73);
 Color cardTextColor = const Color(0xFFFFFBEB);
 
 List<String> listOfModels = [

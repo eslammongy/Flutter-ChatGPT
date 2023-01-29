@@ -21,7 +21,7 @@ class ChatWidget extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           margin: const EdgeInsets.symmetric(vertical: 5),
           child: Material(
-            color: msgIndex == 0 ? cardItemBKColor : cardItemBKColor2,
+            color: msgIndex == 0 ? cardItemBKColor2 : cardItemBKColor,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
             child: Padding(
