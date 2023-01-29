@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_gpt/widgets/text_widget.dart';
 
 Color scaffoldBKColor = const Color(0xFF1c202a);
 Color appBarBKColor = const Color(0xFF272c39);
