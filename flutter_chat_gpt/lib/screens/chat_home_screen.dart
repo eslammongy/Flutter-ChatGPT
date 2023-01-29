@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_chat_gpt/constants/constant.dart';
 import 'package:flutter_chat_gpt/services/assets_manager.dart';
 import 'package:flutter_chat_gpt/widgets/chat_widget.dart';
+import 'package:flutter_chat_gpt/widgets/text_widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ChatHome extends StatefulWidget {
@@ -45,7 +46,29 @@ class _ChatHomeState extends State<ChatHome> {
         ),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                await showModalBottomSheet(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    )),
+                    backgroundColor: cardItemBKColor,
+                    context: context,
+                    builder: (context) {
+                      return Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: Row(
+                          children: const [
+                            Flexible(
+                                child: TextWidget(
+                              label: "Choose Model",
+                              fontSize: 16,
+                            ))
+                          ],
+                        ),
+                      );
+                    });
+              },
               icon: Icon(
                 Icons.more_vert_rounded,
                 color: cardItemBKColor,
@@ -76,7 +99,7 @@ class _ChatHomeState extends State<ChatHome> {
               padding: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
                   color: cardItemBKColor,
-                  borderRadius: BorderRadius.circular(20)),
+                  borderRadius: BorderRadius.circular(50)),
               child: Row(
                 children: [
                   Expanded(

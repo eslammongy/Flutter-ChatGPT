@@ -17,50 +17,56 @@ class ChatWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Material(
-          color: msgIndex == 0 ? cardItemBKColor : cardItemBKColor2,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Image.asset(
-                  msgIndex == 0
-                      ? AssetsManager.developerImage
-                      : AssetsManager.chatGptLogo,
-                  width: 30,
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: TextWidget(
-                    label: msg,
-                    color: scaffoldBKColor,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          margin: const EdgeInsets.symmetric(vertical: 5),
+          child: Material(
+            color: msgIndex == 0 ? cardItemBKColor : cardItemBKColor2,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    msgIndex == 0
+                        ? AssetsManager.developerImage
+                        : AssetsManager.chatGptLogo,
+                    width: 30,
                   ),
-                ),
-                msgIndex == 0
-                    ? const SizedBox.shrink()
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.thumb_up_alt_rounded,
-                            color: cardTextColor,
-                          ),
-                          SizedBox(
-                            width: 6,
-                          ),
-                          Icon(
-                            Icons.thumb_down_alt_rounded,
-                            color: cardTextColor,
-                          )
-                        ],
-                      )
-              ],
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: TextWidget(
+                      label: msg,
+                      color: scaffoldBKColor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                    ),
+                  ),
+                  msgIndex == 0
+                      ? const SizedBox.shrink()
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.thumb_up_alt_rounded,
+                              color: cardTextColor,
+                            ),
+                            SizedBox(
+                              width: 6,
+                            ),
+                            Icon(
+                              Icons.thumb_down_alt_rounded,
+                              color: cardTextColor,
+                            )
+                          ],
+                        )
+                ],
+              ),
             ),
           ),
         )
