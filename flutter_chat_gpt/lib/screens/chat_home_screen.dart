@@ -80,7 +80,6 @@ class _ChatHomeState extends State<ChatHome> {
               physics: const BouncingScrollPhysics(),
               itemCount: chatProvider.chatModelList.length,
               itemBuilder: (context, index) {
-                print("${chatProvider.chatModelList[index].isImage}");
                 return ChatWidget(
                   msg: chatProvider.chatModelList[index].message,
                   msgIndex: chatProvider.chatModelList[index].msgIndex,
@@ -157,7 +156,7 @@ class _ChatHomeState extends State<ChatHome> {
       required ModelsProvider provider,
       required ChatProvider chatProvider}) async {
     if (_textEditingController.text.isEmpty) {
-      showErrorMsg(error: "Please type a message");
+      showErrorMsg(error: "Please type a message", color: Colors.red);
       return;
     }
     try {
@@ -174,7 +173,7 @@ class _ChatHomeState extends State<ChatHome> {
       setState(() {});
     } catch (e) {
       log('That Error Happened When Calling API $e');
-      showErrorMsg(error: e.toString());
+      showErrorMsg(error: e.toString(), color: Colors.red);
     } finally {
       setState(() {
         scrollToEndOfList();
@@ -186,7 +185,7 @@ class _ChatHomeState extends State<ChatHome> {
   Future<void> sendMsgToGptAsImage(
       {required String msg, required ChatProvider chatProvider}) async {
     if (_textEditingController.text.isEmpty) {
-      showErrorMsg(error: "Please type a message");
+      showErrorMsg(error: "Please type a message", color: Colors.red);
       return;
     }
     try {
@@ -201,7 +200,7 @@ class _ChatHomeState extends State<ChatHome> {
       setState(() {});
     } catch (e) {
       log('That Error Happened When Calling API $e');
-      showErrorMsg(error: e.toString());
+      showErrorMsg(error: e.toString(), color: Colors.red);
     } finally {
       setState(() {
         scrollToEndOfList();
@@ -210,14 +209,29 @@ class _ChatHomeState extends State<ChatHome> {
     }
   }
 
-  void showErrorMsg({required String error}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: TextWidget(
-          label: error,
-        ),
-        backgroundColor: Colors.red,
+  void showErrorMsg({required String error, required Color color}) {
+    final snackBar = SnackBar(
+      backgroundColor: Colors.transparent,
+      content: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color:color,
+            border: Border.all(color: color, width: 3),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Row(
+            children: [
+              const Icon(Icons.error, color: Colors.white ),
+               Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Text(error.trim(), style: const TextStyle(color: Colors.white, fontSize: 18)),
+              ),
+              const Spacer(),
+              TextButton(onPressed: () => debugPrint("Undid"), child: Text("Undo"))
+            ],
+          )
       ),
     );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

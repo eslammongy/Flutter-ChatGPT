@@ -76,7 +76,7 @@ class ApiServices {
           "Content-Type": "application/json"
         },
         body: jsonEncode(
-          {"prompt": msg, "n": 1, "size": "1024x1024"},
+          {"prompt": msg, "n": 1, "size": "512x512"},
         ),
       );
       Map jsonResponse = jsonDecode(response.body);

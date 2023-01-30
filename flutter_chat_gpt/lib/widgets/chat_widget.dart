@@ -1,6 +1,12 @@
+// ignore_for_file: unused_local_variable
+
+import 'dart:io';
+import 'package:flutter/services.dart';
+import 'package:flutter_chat_gpt/services/helper.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter_chat_gpt/constants/constant.dart';
 import 'package:flutter_chat_gpt/services/assets_manager.dart';
 import 'package:flutter_chat_gpt/widgets/text_widget.dart';
@@ -52,46 +58,63 @@ class ChatWidget extends StatelessWidget {
                             )
                           : isImage
                               ? AspectRatio(
-                        aspectRatio: 16 / 9,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.network(
-                            msg,
-                            fit: BoxFit.fill,
-                            loadingBuilder:
-                                (context, child, loadingProgress) =>
-                            loadingProgress == null
-                                ? child
-                                : const SpinKitThreeBounce(
-                              color: Colors.indigo,
-                              size: 18,
-                            ),
-                          ),
-                        ),
-                      ) :DefaultTextStyle(
-                        style: TextStyle(
-                          color: cardTextInColor,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
-                        child: AnimatedTextKit(
-                          isRepeatingAnimation: false,
-                          repeatForever: false,
-                          displayFullTextOnTap: true,
-                          totalRepeatCount: 1,
-                          animatedTexts: [
-                            TyperAnimatedText(msg.trim())
-                          ],
-                        ),
-                      )),
+                                  aspectRatio: 16 / 9,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Image.network(
+                                      msg,
+                                      fit: BoxFit.fill,
+                                      loadingBuilder:
+                                          (context, child, loadingProgress) =>
+                                              loadingProgress == null
+                                                  ? child
+                                                  : const SpinKitThreeBounce(
+                                                      color: Colors.indigo,
+                                                      size: 18,
+                                                    ),
+                                    ),
+                                  ),
+                                )
+                              : DefaultTextStyle(
+                                  style: TextStyle(
+                                    color: cardTextInColor,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                  ),
+                                  child: AnimatedTextKit(
+                                    isRepeatingAnimation: false,
+                                    repeatForever: false,
+                                    displayFullTextOnTap: true,
+                                    totalRepeatCount: 1,
+                                    animatedTexts: [
+                                      TyperAnimatedText(msg.trim())
+                                    ],
+                                  ),
+                                )),
                   msgIndex == 0
                       ? const SizedBox.shrink()
-                      : IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.share,
-                            color: cardTextColor,
-                          ))
+                      : isImage
+                          ? IconButton(
+                              onPressed: () async {
+                               // downloadImage(imageUrl: msg, context: context);
+                              },
+                              icon: Icon(
+                                Icons.download_rounded,
+                                color: cardTextColor,
+                              ))
+                          : IconButton(
+                              onPressed: () {
+                                final textValue = ClipboardData(text: msg);
+                                Clipboard.setData(textValue).whenComplete(() =>
+                                    Helper.showMsg(
+                                        text: "Text Copied Successfully",
+                                        color: Colors.indigo,
+                                        context: context));
+                              },
+                              icon: Icon(
+                                Icons.copy,
+                                color: cardTextColor,
+                              ))
                 ],
               ),
             ),
@@ -100,4 +123,43 @@ class ChatWidget extends StatelessWidget {
       ],
     );
   }
+
+/*  downloadImage(
+      {required String imageUrl, required BuildContext context}) async {
+    try {
+      var imageId =
+          await ImageDownloader.downloadImage(imageUrl).catchError((error) {
+        if (error is PlatformException) {
+          var path = "";
+          if (error.code == "404") {
+            Helper.showMsg(
+                text: "Not Found Error.", color: Colors.red, context: context);
+          } else if (error.code == "unsupported_file") {
+            Helper.showMsg(
+                text: "UnSupported FIle Error.",
+                color: Colors.red,
+                context: context);
+          } else {
+            Helper.showMsg(
+                text: "UnSupported FIle Error.",
+                color: Colors.red,
+                context: context);
+          }
+        }
+      });
+      if (imageId == null) {
+        return;
+      }
+
+      Helper.showMsg(
+          text: "Text Copied Successfully",
+          color: Colors.indigo,
+          context: context);
+    } on PlatformException catch (error) {
+      Helper.showMsg(
+          text: error.toString().substring(1, 40),
+          color: Colors.indigo,
+          context: context);
+    }
+  }*/
 }

@@ -33,4 +33,30 @@ class Helper {
           );
         });
   }
+
+  static showMsg({required String text, required Color color, required BuildContext context}) {
+    final snackBar = SnackBar(
+      backgroundColor: Colors.transparent,
+      content: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color:color,
+            border: Border.all(color: color, width: 3),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Row(
+            children: [
+              const Icon(Icons.error, color: Colors.white ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Text(text, style: const TextStyle(color: Colors.white, fontSize: 18)),
+              ),
+              const Spacer(),
+              TextButton(onPressed: () => debugPrint("Undid"), child: Text("Undo"))
+            ],
+          )
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 }
