@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_chat_gpt/constants/constant.dart';
 import 'package:flutter_chat_gpt/provider/chat_provider.dart';
 import 'package:flutter_chat_gpt/provider/models_provider.dart';
-import 'package:flutter_chat_gpt/screens/chat_home_screen.dart';
+import 'package:flutter_chat_gpt/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     color: scaffoldBKColor,
                     letterSpacing: 1.2))),
-        home: const ChatHome(),
+        home: const SplashScreen(),
       ),
     );
   }

@@ -8,7 +8,7 @@ class ChatProvider extends ChangeNotifier {
   List<ChatModel> get chatModelList => _chatModelList;
 
   void addingUserMsg({required String msg}) {
-    _chatModelList.add(ChatModel(message: msg, msgIndex: 0));
+    _chatModelList.add(ChatModel(message: msg, msgIndex: 0, isImage: false));
     notifyListeners();
   }
 
@@ -16,6 +16,13 @@ class ChatProvider extends ChangeNotifier {
       {required String msg, required String modelID}) async {
     _chatModelList
         .addAll(await ApiServices.getChatResponse(msg: msg, modelID: modelID));
+    notifyListeners();
+  }
+
+  Future<void> getChatResponseAsImage({required String msg}) async {
+    var imageUrl = await ApiServices.getChatResponseAsImage(msg: msg);
+    _chatModelList
+        .add(ChatModel(message: imageUrl, msgIndex: 2, isImage: true));
     notifyListeners();
   }
 }

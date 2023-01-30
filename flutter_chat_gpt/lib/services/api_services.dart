@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter_chat_gpt/constants/api_constant.dart';
 import 'package:flutter_chat_gpt/models/chat_model.dart';
 import 'package:flutter_chat_gpt/models/models_model.dart';
@@ -30,7 +28,7 @@ class ApiServices {
   static Future<List<ChatModel>> getChatResponse(
       {required String msg, required String modelID}) async {
     var parsedUrl = Uri.parse("$baseUrl/completions");
-    print(msg);
+
     try {
       var response = await http.post(
         parsedUrl,
@@ -42,7 +40,7 @@ class ApiServices {
           {
             "model": modelID,
             "prompt": msg,
-            "max_tokens": 100,
+            "max_tokens": 120,
           },
         ),
       );
@@ -52,14 +50,46 @@ class ApiServices {
       }
       List<ChatModel> chatResponse = [];
       if (jsonResponse['choices'].length > 0) {
-        log("Chat Response ${jsonResponse['choices'][0]['text']}");
+        //log("Chat Response ${jsonResponse['choices'][0]['text']}");
         chatResponse = List.generate(
             jsonResponse['choices'].length,
             (index) => ChatModel(
-                message: jsonResponse['choices'][index]['text'], msgIndex: 1));
+                message: jsonResponse['choices'][index]['text'],
+                msgIndex: 1,
+                isImage: false));
       }
 
       return chatResponse;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static Future<String> getChatResponseAsImage({required String msg}) async {
+    var parsedUrl = Uri.parse("$baseUrl/images/generations");
+    String imageUrl = "";
+    try {
+      var response = await http.post(
+        parsedUrl,
+        headers: {
+          'Authorization': 'Bearer $apiKey',
+          "Content-Type": "application/json"
+        },
+        body: jsonEncode(
+          {"prompt": msg, "n": 1, "size": "1024x1024"},
+        ),
+      );
+      Map jsonResponse = jsonDecode(response.body);
+      if (jsonResponse['error'] != null) {
+        throw HttpException(jsonResponse['error']['message']);
+      }
+
+      if (jsonResponse['data'].length > 0) {
+        // log("Image Url ${jsonResponse['data'][0]['url']}");
+        imageUrl = jsonResponse['data'][0]['url'];
+      }
+
+      return imageUrl;
     } catch (e) {
       rethrow;
     }

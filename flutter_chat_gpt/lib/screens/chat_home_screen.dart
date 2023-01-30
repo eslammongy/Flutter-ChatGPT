@@ -80,10 +80,13 @@ class _ChatHomeState extends State<ChatHome> {
               physics: const BouncingScrollPhysics(),
               itemCount: chatProvider.chatModelList.length,
               itemBuilder: (context, index) {
+                print("${chatProvider.chatModelList[index].isImage}");
                 return ChatWidget(
                   msg: chatProvider.chatModelList[index].message,
                   msgIndex: chatProvider.chatModelList[index].msgIndex,
+                  isImage: chatProvider.chatModelList[index].isImage,
                 );
+
               }),
         ),
         if (userIsTyping) ...[
@@ -127,7 +130,11 @@ class _ChatHomeState extends State<ChatHome> {
                       color: Colors.white,
                     )),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await sendMsgToGptAsImage(
+                          msg: _textEditingController.text,
+                          chatProvider: chatProvider);
+                    },
                     icon: const Icon(
                       Icons.image_search_rounded,
                       color: Colors.white,
@@ -142,7 +149,7 @@ class _ChatHomeState extends State<ChatHome> {
 
   void scrollToEndOfList() {
     scrollController.animateTo(scrollController.position.maxScrollExtent,
-        duration: const Duration(seconds: 2), curve: Curves.easeIn);
+        duration: const Duration(seconds: 2), curve: Curves.easeOut);
   }
 
   Future<void> sendMsgToGpt(
@@ -150,14 +157,7 @@ class _ChatHomeState extends State<ChatHome> {
       required ModelsProvider provider,
       required ChatProvider chatProvider}) async {
     if (_textEditingController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: TextWidget(
-            label: "Please type a message",
-          ),
-          backgroundColor: Colors.red,
-        ),
-      );
+      showErrorMsg(error: "Please type a message");
       return;
     }
     try {
@@ -167,16 +167,57 @@ class _ChatHomeState extends State<ChatHome> {
         _textEditingController.clear();
         focusNode.unfocus();
       });
+
       await chatProvider.getChatResponse(
           msg: msg, modelID: provider.currentModelName);
+
       setState(() {});
     } catch (e) {
       log('That Error Happened When Calling API $e');
+      showErrorMsg(error: e.toString());
     } finally {
       setState(() {
         scrollToEndOfList();
         userIsTyping = false;
       });
     }
+  }
+
+  Future<void> sendMsgToGptAsImage(
+      {required String msg, required ChatProvider chatProvider}) async {
+    if (_textEditingController.text.isEmpty) {
+      showErrorMsg(error: "Please type a message");
+      return;
+    }
+    try {
+      setState(() {
+        userIsTyping = true;
+        chatProvider.addingUserMsg(msg: msg);
+        _textEditingController.clear();
+        focusNode.unfocus();
+      });
+
+      await chatProvider.getChatResponseAsImage(msg: msg);
+      setState(() {});
+    } catch (e) {
+      log('That Error Happened When Calling API $e');
+      showErrorMsg(error: e.toString());
+    } finally {
+      setState(() {
+        scrollToEndOfList();
+        userIsTyping = false;
+      });
+    }
+  }
+
+  void showErrorMsg({required String error}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: TextWidget(
+          label: error,
+        ),
+        backgroundColor: Colors.red,
+      ),
+    );
   }
 }
