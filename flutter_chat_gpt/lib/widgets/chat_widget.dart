@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_chat_gpt/constants/constant.dart';
@@ -39,12 +40,27 @@ class ChatWidget extends StatelessWidget {
                     width: 10,
                   ),
                   Expanded(
-                    child: TextWidget(
-                      label: msg,
-                      color: cardTextInColor,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                    ),
+                    child: msgIndex == 0
+                        ? TextWidget(
+                            label: msg,
+                            color: cardTextInColor,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                          )
+                        : DefaultTextStyle(
+                            style: TextStyle(
+                              color: cardTextInColor,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                            ),
+                            child: AnimatedTextKit(
+                              isRepeatingAnimation: false,
+                              repeatForever: false,
+                              displayFullTextOnTap: true,
+                              totalRepeatCount: 1,
+                              animatedTexts: [TyperAnimatedText(msg.trim())],
+                            ),
+                          ),
                   ),
                   msgIndex == 0
                       ? const SizedBox.shrink()
@@ -56,7 +72,7 @@ class ChatWidget extends StatelessWidget {
                               Icons.thumb_up_alt_rounded,
                               color: cardTextColor,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 6,
                             ),
                             Icon(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_gpt/constants/constant.dart';
+import 'package:flutter_chat_gpt/provider/chat_provider.dart';
 import 'package:flutter_chat_gpt/provider/models_provider.dart';
 import 'package:flutter_chat_gpt/screens/chat_home_screen.dart';
-import 'package:flutter_chat_gpt/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -17,7 +17,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: ((context) => ModelsProvider()))
+        ChangeNotifierProvider(create: ((context) => ModelsProvider())),
+        ChangeNotifierProvider(create: ((context) => ChatProvider()))
       ],
       child: MaterialApp(
         title: 'Chat Gpt',
