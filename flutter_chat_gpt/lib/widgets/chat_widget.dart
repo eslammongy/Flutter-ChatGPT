@@ -3,6 +3,7 @@
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_gpt/services/helper.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +97,8 @@ class ChatWidget extends StatelessWidget {
                       : isImage
                           ? IconButton(
                               onPressed: () async {
-                               // downloadImage(imageUrl: msg, context: context);
+                                saveNetworkImage(
+                                    imageUrl: msg, context: context);
                               },
                               icon: Icon(
                                 Icons.download_rounded,
@@ -124,42 +126,14 @@ class ChatWidget extends StatelessWidget {
     );
   }
 
-/*  downloadImage(
+  void saveNetworkImage(
       {required String imageUrl, required BuildContext context}) async {
-    try {
-      var imageId =
-          await ImageDownloader.downloadImage(imageUrl).catchError((error) {
-        if (error is PlatformException) {
-          var path = "";
-          if (error.code == "404") {
-            Helper.showMsg(
-                text: "Not Found Error.", color: Colors.red, context: context);
-          } else if (error.code == "unsupported_file") {
-            Helper.showMsg(
-                text: "UnSupported FIle Error.",
-                color: Colors.red,
-                context: context);
-          } else {
-            Helper.showMsg(
-                text: "UnSupported FIle Error.",
-                color: Colors.red,
-                context: context);
-          }
-        }
-      });
-      if (imageId == null) {
-        return;
-      }
-
-      Helper.showMsg(
-          text: "Text Copied Successfully",
-          color: Colors.indigo,
-          context: context);
-    } on PlatformException catch (error) {
-      Helper.showMsg(
-          text: error.toString().substring(1, 40),
-          color: Colors.indigo,
-          context: context);
-    }
-  }*/
+    await GallerySaver.saveImage(imageUrl, toDcim: true, albumName: "ChatGpt")
+        .then((value) => Helper.showMsg(
+            text: "Image Downloaded Success",
+            color: Colors.indigo,
+            context: context))
+        .onError((error, stackTrace) => Helper.showMsg(
+            text: "Not Found Error.", color: Colors.red, context: context));
+  }
 }
