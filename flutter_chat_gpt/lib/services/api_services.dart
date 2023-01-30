@@ -30,6 +30,7 @@ class ApiServices {
   static Future<List<ChatModel>> getChatResponse(
       {required String msg, required String modelID}) async {
     var parsedUrl = Uri.parse("$baseUrl/completions");
+    print(msg);
     try {
       var response = await http.post(
         parsedUrl,

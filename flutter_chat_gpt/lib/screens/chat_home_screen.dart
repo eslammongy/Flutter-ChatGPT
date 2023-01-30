@@ -118,7 +118,9 @@ class _ChatHomeState extends State<ChatHome> {
                 IconButton(
                     onPressed: () async {
                       await sendMsgToGpt(
-                          provider: modelsProvider, chatProvider: chatProvider);
+                          msg: _textEditingController.text,
+                          provider: modelsProvider,
+                          chatProvider: chatProvider);
                     },
                     icon: const Icon(
                       Icons.send_rounded,
@@ -144,30 +146,29 @@ class _ChatHomeState extends State<ChatHome> {
   }
 
   Future<void> sendMsgToGpt(
-      {required ModelsProvider provider,
+      {required String msg,
+      required ModelsProvider provider,
       required ChatProvider chatProvider}) async {
     if (_textEditingController.text.isEmpty) {
-      if (_textEditingController.text.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: TextWidget(
-              label: "Please type a message",
-            ),
-            backgroundColor: Colors.red,
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: TextWidget(
+            label: "Please type a message",
           ),
-        );
-        return;
-      }
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
     }
     try {
       setState(() {
         userIsTyping = true;
-        chatProvider.addingUserMsg(msg: _textEditingController.text);
+        chatProvider.addingUserMsg(msg: msg);
         _textEditingController.clear();
         focusNode.unfocus();
       });
       await chatProvider.getChatResponse(
-          msg: _textEditingController.text, modelID: provider.currentModelName);
+          msg: msg, modelID: provider.currentModelName);
       setState(() {});
     } catch (e) {
       log('That Error Happened When Calling API $e');
